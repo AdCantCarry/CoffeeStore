@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CoffeeStore</title>
+    <link rel="icon" href="~/Image/Avartar_Logo/logo1.png" style="width:32px;height:32px;" />
+    <link rel="stylesheet" href="~/Content/Layout/_layoutUser.css" />
+</head>
+<body>
+
+    <div class="above-header">
+        <nav class="Logo-text">
+            <a href="~/Home/Index">COFFEESTORE</a>
+        </nav>
+        <nav class="Location-function">
+            <a class="search" id="search"><img src="~/Image/Icons/icon-search.png" /></a>
+            @if (Session["Email"] != null)
+            {
+                <a href="~/Product/GioHanng"><img src="~/Image/Icons/icon-cart.png" /></a>
+                <a href="~/Home/Profile"><img src="~/Image/Icons/Icon-user.png" /></a>
+                <a href="~/Home/Profile" id="WelcomeUser">Hello <span class="NameUser">@(Session["Name"] ?? "Guest")</span>!</a>
+                <a href="~/Account/Logout">Logout</a>
+            }
+            @if (Session["Email"] == null)
+            {
+                <a href="#" id="Not-Login"><img src="~/Image/Icons/icon-cart.png" /></a>
+                <a href="~/Account/Login">Sign in</a>
+                <a style="cursor: default">/</a>
+                <a href="~/Account/Register">Sign up</a>
+            }
+        </nav>
+    </div>
+    <header id="mainHeader">
+        <div></div>
+        <div class="toolbar">
+            <button id="menuToggle" class="menu-btn">☰</button>
+        </div>
+        <nav class="accordion-header-toggle">
+            <a href="~/Home/Index">Trang chủ</a>
+            <a href="~/Home/GioiThieu">Giới thiệu</a>
+            <nav class="menu-product">
+                <a href="~/Home/SanPham">Sản phẩm <span><img src="~/Image/Icons/Icon-down-arrow.png" style="width: 10px;height: 12px" /></span></a>
+
+            </nav>
+            <a href="~/Home/Blog">Vlog</a>
+            <a href="~/Home/Contact">Liên hệ</a>
+            <a href="~/Home/ShowOrder" class="OrderChecking">Kiểm tra đơn hàng</a>
+        </nav>
+        <div></div>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Địa chỉ</h3>
+                    <ul>
+                        <li>TPHCM , Quận 1</li>
+                        <li>Điện thoại: 0908366673</li>
+                        <li>Email: CoffeeStore@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>Chính sách</h3>
+                    <ul>
+                        <li><a href="#">Trang chủ</a></li>
+                        <li><a href="#">Giới thiệu</a></li>
+                        <li><a href="#">Sản phẩm</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="#">Kiểm tra đơn hàng</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>Hổ trợ khách hàng</h3>
+                    <ul>
+                        <li><a href="#">Tìm kiếm</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản dịch vụ</a></li>
+                        <li><a href="#">Hướng dẫn kiểm tra đơn hàng</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>Đăng ký nhận tin</h3>
+                    <form class="form-input-email">
+                        <input class="input-mail" type="email" placeholder="Nhập địa chỉ email">
+                        <input type="submit" value="Đăng ký" />
+                    </form>
+                    <ul class="social">
+                        <li><a href="https://www.facebook.com/AdCantCarry"><i class="fab fa-facebook-f"><img src="~/Image/Icons/icon-facebook.png" alt="facebook" /></i></a></li>
+                        <li><a href="https://www.google.com.vn/?gws_rd=cr&ei=Ue72UvzlO8jakAXMxYDADw"><i class="fab fa-instagram"><img src="~/Image/Icons/icon-google.png" alt="google" /></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="#"><img src="~/Image/Avartar_Logo/Logo_bct.png" alt="Logo bộ công thương" /></a>
+                <a href="#"><img src="~/Image/Avartar_Logo/Logo-trustbadge.png" alt="Phương thức thanh toán" /></a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Lấy phần tử header
+        const header = document.getElementById('mainHeader');
+
+        // Thêm sự kiện khi cuộn trang
+        window.onscroll = function () {
+            if (window.scrollY > 60) { // Khi cuộn quá 50px
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
+    </script>
+    <script>
+        document.getElementById('Not-Login').addEventListener('click', function () {
+            // Kiểm tra xem người dùng có đăng nhập hay không
+            if (!sessionStorage.getItem('isLoggedIn')) {
+                alert('Bạn phải đăng nhập mới sử dụng được tính năng này! \nHãy đăng nhập tài khoản');
+                window.location.href = '/Account/Login';
+            }
+        });
+    </script>
+    <script>
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            const nav = document.querySelector('.accordion-header-toggle');
+            nav.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+<script>
+    document.getElementById('search').addEventListener('click', function () {
+        document.getElementById('searchBox').style.display = 'block';
+    });
+
+    function closeSearch() {
+        document.getElementById('searchBox').style.display = 'none';
+    }
+
+    function performSearch() {
+        let keyword = document.getElementById('searchInput').value;
+        if (keyword.trim() === "") {
+            alert("Vui lòng nhập từ khóa!");
+            return;
+        }
+        // Chuyển hướng đến trang tìm kiếm
+        window.location.href = `/Home/Search?query=${encodeURIComponent(keyword)}`;
+        closeSearch();
+    }
+</script>
+
+

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Địa chỉ";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/CSS/address.css" />
+<main class="Address-Account" style="margin-top:20px">
+    <div class="content1">
+        <h2>Thông tin tài khoản</h2>
+        <section class="Address-content-left">
+            <h3>Xin chào <span>@(Session["Name"] ?? "Guest")!</span></h3>
+            <a class="profile" href="~/Home/Profile">Thông tin tài khoản</a><br />
+            <a class="address" href="~/Home/Address">Địa chỉ</a><br />
+            <a class="order" href="~/Home/ShowOrder">Đơn hàng của bạn</a>
+        </section>
+    </div>
+    <div class="content2">
+        <section class="Address-content-right">
+            <h2>Địa chỉ bạn</h2>
+            <div class="Address-User">
+                <h4>Địa chỉ người dùng: <span>@(Session["Address"] ?? "Người dùng chưa đăng ký địa chỉ")</span></h4>
+                <button>Thay đổi địa chỉ</button>
+            </div>
+        </section>
+    </div>
+</main>
+

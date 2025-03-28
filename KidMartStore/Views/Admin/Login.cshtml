@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+<link rel="stylesheet" href="~/Content/CSS/_login.css"/>
+<body>
+    <div class="login-container">
+        <h2>Đăng nhập Admin</h2>
+        <form id="loginForm" action="/Admin/Login" method="post">
+            <div class="input-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="email" id="username" name="Email" placeholder="Enter your email" required oninvalid="this.setCustomValidity('Bạn chưa nhập Email')" oninput="this.setCustomValidity('')">
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorEmail))
+                {
+                    <p class="error-message" id="errorMessage">@ViewBag.ErrorEmail</p>
+                }
+            </div>
+            <div class="input-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="Password" placeholder="Enter your password" required oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu của bạn!')" oninput="this.setCustomValidity('')">
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorPassword))
+                {
+                    <p class="error-message" id="errorMessage">@ViewBag.ErrorPassword</p>
+                }
+            </div>
+            <input type="submit" value="Đăng nhập" class="buttonLogin" />
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                <p class="error-message" id="errorMessage">@ViewBag.Error</p>
+            }
+            <a style="margin-top: 20px" href="#">Quên mật khẩu?</a>
+        </form>
+    </div>
+    <script src="admin-login.js"></script>
+</body>
+
+

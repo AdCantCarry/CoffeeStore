@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Trang chủ quản lý";
+}
+<link rel="stylesheet" href="~/Content/CSS/_dashboard.css" />
+<div>
+    <h1>Quản lý số liệu</h1>
+    <br />
+    <section class="cards">
+        <div class="card">
+            <h3>Số lượng người dùng</h3>
+            <p>@ViewBag.TotalUsers</p>
+        </div>
+
+        <div class="card">
+            <h3>Số lượng nhân viên</h3>
+            <p>@ViewBag.TotalAdmins</p>
+        </div>
+
+        <div class="card">
+            <h3>Số lượng sản phẩm</h3>
+            <p>@ViewBag.TotalProducts</p>
+        </div>
+
+        <div class="card">
+            <h3>Số lượng đơn hàng</h3>
+            <p>@ViewBag.TotalOrders</p>
+        </div>
+
+        <div class="card">
+            <h3>Đánh giá</h3>
+            <p>@ViewBag.TotalProducts</p>
+        </div>
+
+        <div class="card">
+            <h3>Ngân sách</h3>
+            <p>1,000,000,000 VNĐ</p>
+        </div>
+    </section>
+</div>
+

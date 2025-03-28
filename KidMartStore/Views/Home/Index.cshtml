@@ -1,0 +1,232 @@
+﻿    @model List<KidMartStore.Models.Product>
+
+    @{
+        Layout = "~/Views/Shared/UserLayout.cshtml";
+        ViewBag.Title = "Trang chủ";
+    }
+    <head>
+        <link rel="stylesheet" href="~/Content/CSS/_index.css" />
+        <link rel="stylesheet" href="~/Content/CSS/infor.css" />
+        <link rel="stylesheet" href="~/Content/CSS/Slider.css" />
+    </head>
+    <div class="bodyFrame">
+        <div class="firstContent">
+            <nav class="selectForm">
+                <h2>Danh Mục Hàng</h2>
+                @{
+                    var selectedCategory = Request.QueryString["category"]; // Lấy danh mục hiện tại từ URL
+                    var title = string.IsNullOrEmpty(selectedCategory) ? "Danh sách sản phẩm" : $"Danh sách loại: {selectedCategory}";
+                }
+                <div class="tab-content">
+                    @if (string.IsNullOrEmpty(selectedCategory))
+                    {
+                        <!-- Nếu chưa chọn danh mục, hiển thị nút mở/đóng danh mục -->
+                        <div>
+                            <a id="toggleCategories" style="text-decoration: none; color: black; font-weight: bold; cursor: pointer;">
+                                Tất cả sản phẩm ▼
+                            </a>
+                        </div>
+                        <div id="categoryList" style="display: none; ">
+                            @foreach (var category in Model.Select(m => m.Category).GroupBy(c => c.Name_Category).Select(g => g.First()))
+                            {
+                                <div>
+                                    <a class="category-link" style="text-decoration: none; color: black;"
+                                       href="@Url.Action("Index", "Home", new { category = category.Name_Category })">
+                                        Danh mục @category.Name_Category
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Nếu đã chọn danh mục, chỉ hiển thị Tất cả sản phẩm dưới dạng link -->
+                        <div>
+                            <a style="text-decoration: none; color: black; font-weight: bold;" href="@Url.Action("Index", "Home")">
+                                Tất cả sản phẩm
+                            </a>
+                        </div>
+                    }
+                </div>
+            </nav>
+            <div class="slider" style="margin-left: 40px;">
+                <div class="slider" style="margin-left: 40px;">
+                    <div class="list">
+                       <div class="item">
+             <img src="~/Image/Advertisement/1.png" alt="">
+         </div>
+         <div class="item">
+             <img src="~/Image/Advertisement/2.png" alt="">
+         </div>
+         <div class="item">
+             <img src="~/Image/Advertisement/3.png" alt="">
+         </div>
+         <div class="item">
+             <img src="~/Image/Advertisement/4.png" alt="">
+         </div>
+         <div class="item">
+             <img src="~/Image/Advertisement/5.png" alt="">
+         </div>
+                    </div>
+                    <div class="buttons">
+                        <button style="background-color: #000000; color: #fff; cursor: pointer" id="prev"><</button>
+                        <button style="background-color: #000000; color: #fff; cursor: pointer" id="next">></button>
+                    </div>
+                    <ul class="dots">
+                        @for (int i = 0; i < ViewBag.Sliders.Count; i++)
+                        {
+                            <li style="background-color:black;" class="@(i == 0 ? "active" : "")"></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <script src="~/Content/JS/Slider.js"></script>
+        </div>
+        <div class="info-section">
+            <div class="info-item">
+                <img src="~/Image/Policies/policies_icon_1.png" alt="Shipping">
+                <div class="info-text">
+                    <h3>Vận chuyển toàn quốc</h3>
+                    <p>Vận chuyển nhanh chóng</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <img src="~/Image/Policies/policies_icon_2.png" alt="Offers">
+                <div class="info-text">
+                    <h3>Ưu đãi hấp dẫn</h3>
+                    <p>Nhiều ưu đãi khuyến mãi hot</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <img src="~/Image/Policies/policies_icon_3.png" alt="Quality">
+                <div class="info-text">
+                    <h3>Bảo đảm chất lượng</h3>
+                    <p>Sản phẩm đã được kiểm định</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <img src="~/Image/Policies/policies_icon_4.png" alt="Hotline">
+                <div class="info-text">
+                    <h3>Hotline: 09083666673</h3>
+                    <p>Vui lòng gọi hotline để hỗ trợ</p>
+                </div>
+            </div>
+        </div>
+        <section class="ProductList" style="padding-bottom: 20px;">
+            <h1>@title</h1>
+            <div class="Product-Items">
+                @foreach (var product in Model)
+                {
+                    <nav class="item">
+                        <a href="@Url.Action("ChiTietSanPham", "Product", new { id = product.ID_Product })">
+                            <img src="~/Image/Product/@product.Image" alt="@product.Name" />
+                        </a>
+                        <h5>@product.Name</h5>
+                        <h5>@product.Price.ToString("N0") <span>VNĐ</span></h5>
+                        @if (product.Quantity > 0)
+                        {
+                            <a href="@Url.Action("ChiTietSanPham", "Product", new { id = product.ID_Product })" class="button">Mua Hàng</a>
+                        }
+                        @if (product.Quantity == 0)
+                        {
+                            <a style="color: red; font-weight: bold">Đã hết hàng !</a>
+                        }
+                    </nav>
+                }
+            </div>
+
+            <!-- Hiển thị phân trang -->
+            <div class="pagination">
+                @if (ViewBag.TotalPages > 1)
+                {
+                    <ul class="pagination-list">
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", new { category = ViewBag.Category, query = ViewBag.Query, page = ViewBag.CurrentPage - 1 })">« Trước</a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="@(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a href="@Url.Action("Index", new { category = ViewBag.Category, query = ViewBag.Query, page = i })">@i</a>
+                            </li>
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", new { category = ViewBag.Category, query = ViewBag.Query, page = ViewBag.CurrentPage + 1 })">Sau »</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </section>
+        <section class="ProductList" style="padding-bottom: 20px;">
+            <h1>Danh sách sản phẩm Sale</h1>
+            <div class="Product-Items">
+                @foreach (var product in Model)
+                {
+                    <nav class="item">
+                        <a href="@Url.Action("ChiTietSanPham", "Product", new { id = product.ID_Product })">
+                            <img src="~/Image/Product/@product.Image" alt="@product.Name" />
+                        </a>
+                        <h5>@product.Name</h5>
+                        <h5>@product.Price.ToString("N0") <span>VNĐ</span></h5>
+                        @if (product.Quantity > 0)
+                        {
+                            <a href="@Url.Action("ChiTietSanPham", "Product", new { id = product.ID_Product })" class="button">Mua Hàng</a>
+                        }
+                        @if (product.Quantity == 0)
+                        {
+                            <a style="color: red; font-weight: bold">Đã hết hàng !</a>
+                        }
+                    </nav>
+                }
+            </div>
+
+            <!-- Hiển thị phân trang -->
+            <div class="pagination">
+                @if (ViewBag.TotalPages > 1)
+                {
+                    <ul class="pagination-list">
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", new { category = ViewBag.Category, query = ViewBag.Query, page = ViewBag.CurrentPage - 1 })">« Trước</a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="@(i == ViewBag.CurrentPage ? "active" : "")">
+                                <a href="@Url.Action("Index", new { category = ViewBag.Category, query = ViewBag.Query, page = i })">@i</a>
+                            </li>
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", new { category = ViewBag.Category, query = ViewBag.Query, page = ViewBag.CurrentPage + 1 })">Sau »</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </section>
+    </div>
+    <script>
+        document.getElementById("toggleCategories")?.addEventListener("click", function () {
+            var categoryList = document.getElementById("categoryList");
+            if (categoryList.style.display === "none") {
+                categoryList.style.display = "block";
+                this.innerHTML = "Tất cả sản phẩm ▲";
+            } else {
+                categoryList.style.display = "none";
+                this.innerHTML = "Tất cả sản phẩm ▼";
+            }
+        });
+    </script>
+

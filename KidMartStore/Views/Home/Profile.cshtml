@@ -1,0 +1,90 @@
+﻿@model KidMartStore.Models.Customer
+
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CSS/Profile.css" />
+<section class="information-top"></section>
+<main class="Infor-Account">
+    <div class="content1">
+        <h2>Thông tin tài khoản</h2>
+        <section class="Address-content-left">
+            <h3>Xin chào <span>@(Session["Name"] ?? "Guest")!</span></h3>
+            <a class="profile" href="~/Home/Profile">Thông tin tài khoản</a><br />
+            <a class="address" href="~/Home/Address">Địa chỉ</a><br />
+            <a class="order" href="~/Home/ShowOrder">Đơn hàng của bạn</a>
+        </section>
+    </div>
+    <div class="content2">
+        <section class="Information-content-right">
+            <div class="Information-User" id="section1">
+                <h2>Tài khoản của bạn</h2>
+                <h4>Tên người dùng: <span>@Session["Name"]</span></h4>
+                <h4>Địa chỉ: <span>@(Model.Address ?? "Người dùng chưa đăng ký địa chỉ")</span></h4>
+                <h4>Địa chỉ Email: <span>@Session["Email"]</span></h4>
+                <h4>Số điện thoại: <span>@Session["Phone"]</span></h4>
+                <button class="SetProfile" onclick="changeSection()">Chỉnh sửa thông tin</button>
+            </div>
+            <div class="Information-User" id="section2" style="display: none">
+                <h2 class="SetPro">
+                    <button class="back" onclick="changeSection()">Trở về</button>
+                    Tài khoản của bạn
+                </h2>
+                <form action="/Home/Profile" method="post" onsubmit="return validateForm()">
+                    <input type="email" name="Email" style="cursor:not-allowed" value="@Session["Email"]" readonly />
+                    <input type="text" name="Username" value="@Session["Name"]" required />
+                    <input type="text" name="Address" value="@Session["Address"]" required />
+                    <input type="tel" name="Phone" value="@Session["Phone"]" required />
+                    <input class="button" type="submit" value="Hoàn tất" />
+                </form>
+            </div>
+        </section>
+    </div>
+    <script>
+        function changeSection() {
+            // Lấy phần tử section 1 và section 2
+            const section1 = document.getElementById("section1");
+            const section2 = document.getElementById("section2");
+
+            // Kiểm tra và chuyển đổi hiển thị của từng section
+            if (section1.style.display === "none") {
+                section1.style.display = "block";
+                section2.style.display = "none";
+            } else {
+                section1.style.display = "none";
+                section2.style.display = "block";
+            }
+        }
+    </script>
+    <script>
+        function validateForm() {
+            const username = document.getElementsByName('Username')[0].value.trim();
+            const address = document.getElementsByName('Address')[0].value.trim();
+            const phone = document.getElementsByName('Phone')[0].value.trim();
+
+            if (username === '') {
+                alert('Tên không được bỏ trống');
+                return false;
+            }
+
+            if (address === '') {
+                alert('Địa chỉ không được bỏ trống');
+                return false;
+            }
+
+            if (phone === '') {
+                alert('Số điện thoại không được bỏ trống');
+                return false;
+            }
+
+            if (phone.length < 10 || phone.length > 12) {
+                alert('Số điện thoại phải có độ dài từ 10 đến 12 ký tự');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</main>
+

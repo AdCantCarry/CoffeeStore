@@ -1,0 +1,236 @@
+﻿.bodyFrame {
+    margin: 20px 30px 20px 30px;
+}
+
+    .bodyFrame .firstContent {
+        width: 100%;
+        position: relative;
+        display: flex;
+        padding-bottom: 20px;
+        justify-content: space-around;
+    }
+
+        .bodyFrame .firstContent .selectForm {
+            width: 280px;
+            height: max-content;
+            padding-bottom: 15px;
+        }
+
+            .bodyFrame .firstContent .selectForm h2 {
+                color: black;
+                font-size: 30px;
+                font-family: Arial;
+                font-weight: bold;
+                text-align: center;
+                cursor: default;
+            }
+
+            .bodyFrame.firstContent .selectForm .tab-content {
+                display: grid;
+                flex-wrap: wrap;
+            }
+
+                .bodyFrame .firstContent .selectForm .tab-content div {
+                    background-color: white;
+                    padding: 10px;
+                    color: black;
+                    margin-bottom: 10px;
+                    font-family: Arial;
+                    font-size: 20px;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.5s ease;
+                }
+
+                    .bodyFrame .firstContent .selectForm .tab-content div:hover {
+                        color: white;
+                    }
+                    .bodyFrame .firstContent .selectForm .tab-content div span {
+                        margin-left: 20px;
+                    }
+
+    .bodyFrame .ProductList {
+        text-align: center;
+    }
+
+        .bodyFrame .ProductList h1 {
+            padding: 10px 0px 10px 0px;
+            text-align: center;
+            border-bottom: 4px solid black;
+            color: black;
+            font-size: 30px;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        .bodyFrame .ProductList .Product-Items {
+            margin: 40px 6% 40px 6%;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 60px;
+        }
+
+            .bodyFrame .ProductList .Product-Items .item {
+                max-width: max-content;
+                height: max-content;
+                display: grid;
+                flex: 0 1 50%;
+                border-radius: 25px;
+                padding: 8px;
+            }
+
+                .bodyFrame .ProductList .Product-Items .item .button {
+                    border-radius: 18px;
+                    margin-top: 10px;
+                    padding: 8px;
+                    background-color: #B0E0E6;
+                    border: none;
+                    transition: 0.5s ease;
+                    color: black;
+                    text-decoration: none;
+                    font-family: Arial;
+                }
+
+                    .bodyFrame .ProductList .Product-Items .item .button:hover {
+                        background-color: #808080;
+                        color: white;
+                        font-weight: bold;
+                    }
+
+                .bodyFrame .ProductList .Product-Items .item img {
+                    width: 250px;
+                    height: 300px;
+                    transition: 1s ease;
+                    border-radius: 25px;
+                }
+
+                    .bodyFrame .ProductList .Product-Items .item img:hover {
+                        transform: scale(1.1);
+                        border: 1px solid #FFC0CB;
+                        border-radius: 360px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+                    }
+
+                .bodyFrame .ProductList .Product-Items .item h5 {
+                    font-size: 15px;
+                    font-family: Arial;
+                    font-weight: bold;
+                    margin: 10px 0px 5px 0px;
+                    padding: 0;
+                }
+
+/*Phân trang*/
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination-list {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+}
+
+    .pagination-list li {
+        display: inline;
+        margin: 0 5px;
+    }
+
+        .pagination-list li a {
+            text-decoration: none;
+            color: black;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .pagination-list li.active a {
+            background-color: #000;
+            color: white;
+            font-weight: bold;
+        }
+
+        .pagination-list li a:hover {
+            background-color: #ddd;
+        }
+
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .bodyFrame .ProductList .Product-Items {
+        margin: 20px 3%;
+        gap: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .bodyFrame .firstContent {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bodyFrame .ProductList .Product-Items {
+        margin: 20px 2%;
+        gap: 30px;
+    }
+
+    .bodyFrame .ProductList h1 {
+        font-size: 24px;
+    }
+
+    .bodyFrame .ProductList .Product-Items .item img {
+        width: 180px;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .bodyFrame {
+        margin: 10px;
+    }
+
+        .bodyFrame .ProductList h1 {
+            font-size: 20px;
+        }
+
+        .bodyFrame .ProductList .Product-Items .item img {
+            width: 150px;
+        }
+
+        .bodyFrame .ProductList .Product-Items .item h5 {
+            font-size: 14px;
+        }
+}
+
+@media (min-width: 1600px) {
+    .bodyFrame {
+        margin: 30px 50px;
+    }
+
+        .bodyFrame .firstContent {
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .bodyFrame .ProductList .Product-Items {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+
+            .bodyFrame .ProductList .Product-Items .item img {
+                width: 300px;
+                height: 350px;
+            }
+
+        .bodyFrame .ProductList h1 {
+            font-size: 35px;
+        }
+
+        .bodyFrame .ProductList .Product-Items .item h5 {
+            font-size: 18px;
+        }
+
+}

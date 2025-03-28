@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "ManagerCategory";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CSS/_managercategory.css" />
+
+<div class="search-bar">
+    <input type="text" id="searchCategory" placeholder="Tìm kiếm theo ID danh mục hoặc Tên danh mục...">
+</div>
+
+<section class="category-table">
+    <table id="categoryTable">
+        <thead>
+            <tr>
+                <th data-sort="id">ID ⬍</th>
+                <th>Tên danh mục</th>
+                <th>Mô tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.ID_Category</td>
+                    <td>@category.Name_Category</td>
+                    <td>
+                        <a href="@Url.Action("UpdateCategory", "Function", new { id = category.ID_Category })" class="edit">Chỉnh sửa</a>
+                        <a href="@Url.Action("DeleteCategory", "Function", new { id = category.ID_Category })" class="delete">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button class="add-category" onclick="window.location.href='@Url.Action("AddNewCategory", "Function")'">Thêm danh mục</button>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>$(document).ready(function () {
+        // Tìm kiếm danh mục theo ID hoặc Tên danh mục
+        $("#searchCategory").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#categoryTable tbody tr").each(function () {
+                var rowText = $(this).text().toLowerCase();
+                $(this).toggle(rowText.indexOf(value) > -1);
+            });
+        });
+
+        // Sắp xếp danh mục theo ID
+        $("th[data-sort]").click(function () {
+            var table = $("#categoryTable tbody");
+            var rows = table.find("tr").toArray();
+            var column = $(this).data("sort");
+            var order = $(this).data("order") === "asc" ? "desc" : "asc";
+
+            rows.sort(function (a, b) {
+                var aValue = $(a).find("td:eq(0)").text().trim();
+                var bValue = $(b).find("td:eq(0)").text().trim();
+
+                aValue = parseInt(aValue) || 0;
+                bValue = parseInt(bValue) || 0;
+
+                return order === "asc" ? aValue - bValue : bValue - aValue;
+            });
+
+            table.html(rows);
+            $(this).data("order", order);
+            $(this).html($(this).html().replace("⬍", order === "asc" ? "⬆" : "⬇"));
+        });
+    });</script>

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Đặt hàng thành công";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/CSS/CheckOutSuccess.css" />
+
+<main class="success-container">
+    <section class="success-content">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="success-title">Bạn đã đặt hàng thành công!</h2>
+        <p class="success-message">Cảm ơn bạn đã mua hàng tại CoffeeStore. Đơn hàng của bạn đã được ghi nhận và đang được xử lý.</p>
+        <p class="success-message">Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng và thông báo thời gian giao hàng dự kiến.</p>
+
+        <div class="order-details">
+            <h3 class="order-title">Thông tin đơn hàng:</h3>
+            <p><span class="order-label">Mã đơn hàng:</span> @ViewBag.OrderId</p>
+            <p><span class="order-label">Ngày đặt hàng:</span> @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
+            <p><span class="order-label">Địa chỉ giao:</span> @ViewBag.Address</p>
+            <p class="order-history-link">Bạn có thể theo dõi tình trạng đơn hàng trong <a href="/Home/ShowOrder">lịch sử đơn hàng</a>.</p>
+        </div>
+
+        <div class="continue-shopping">
+            <a href="/Home/Index" class="shopping-button">Tiếp tục mua sắm</a>
+        </div>
+    </section>
+</main>
+
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>

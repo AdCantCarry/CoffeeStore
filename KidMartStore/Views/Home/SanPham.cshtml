@@ -1,0 +1,57 @@
+﻿@model List<KidMartStore.Models.Product>
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewBag.Title = "Sản phẩm";
+}
+<link rel="stylesheet" href="~/Content/CSS/_productlist.css" />
+<section class="infor-promotion"></section>
+<main class="product-list">
+    <div class="content2">
+        <section class="list-content">
+            <h2>Sản phẩm CoffeeStore</h2>
+            <div class="Product-Items">
+                @foreach (var product in Model)
+                {
+                    <nav class="item">
+                        <img src="~/Image/Product/@product.Image" alt="@product.Name" />
+                        <h5>@product.Name</h5>
+                        <h5>@product.Price.ToString("N0") <span>VNĐ</span></h5>
+                        @if (product.Quantity > 0)
+                        {
+                            <a href="@Url.Action("ChiTietSanPham", "Product", new { id = product.ID_Product })" class="buttonBuy">Mua Hàng</a>
+                        }
+                        @if (product.Quantity == 0)
+                        {
+                            <a style="color: red; font-weight: bold">Đã hết hàng !</a>
+                        }
+                    </nav>
+                }
+            </div>
+            <div class="pagination">
+                @if (ViewBag.CurrentPage > 1)
+                {
+                    <a href="@Url.Action("SanPham", new { page = ViewBag.CurrentPage - 1 })">« Trước</a>
+                }
+
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    if (i == ViewBag.CurrentPage)
+                    {
+                        <span class="current-page">@i</span>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("SanPham", new { page = i })">@i</a>
+                    }
+                }
+
+                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                {
+                    <a href="@Url.Action("SanPham", new { page = ViewBag.CurrentPage + 1 })">Sau »</a>
+                }
+            </div>
+
+        </section>
+    </div>
+</main>
+

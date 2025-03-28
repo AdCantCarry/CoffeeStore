@@ -1,0 +1,35 @@
+﻿@model List<KidMartStore.Models.Customer>
+@{
+    ViewBag.Title = "Danh sách người dùng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CSS/_manageraccount.css" />
+<section class="user-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Địa chỉ</th>
+                <th>Tùy chọn</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model.Where(c => c.Role == "Khách Hàng"))
+            {
+                <tr>
+                    <td>@customer.Username</td>
+                    <td>@customer.Phone</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.Address</td>
+                    <td>
+                        <a href="@Url.Action("UpdateAccount", "Function", new { id = customer.ID_Customer })" class="edit">Chỉnh sửa</a>
+                        <a href="@Url.Action("DeleteAccount", "Function", new { id = customer.ID_Customer })" class="delete" onclick="return confirm('Bạn chắc chắn muốn xóa người dùng này không?');">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+

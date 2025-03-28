@@ -1,0 +1,120 @@
+﻿.product-list {
+    display: flex;
+}
+
+
+    .product-list .content2 {
+        width: 100%;
+        position: relative;
+        height: max-content;
+    }
+
+        .product-list .content2 h2 {
+            border-bottom: 2px solid black;
+            font-family: Arial;
+            font-weight: bolder;
+        }
+
+        .product-list .content2 .Product-Items {
+            text-align: center;
+        }
+
+        .product-list .content2 .Product-Items {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 60px
+        }
+
+            .product-list .content2 .Product-Items .item {
+                max-width: max-content;
+                display: grid;
+                flex: 1 0 50%;
+                padding: 8px;
+            }
+
+.list-content .Product-Items .item .buttonBuy {
+    border-radius: 18px;
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #B0E0E6;
+    border: none;
+    transition: 0.5s ease;
+    color: black;
+    text-decoration: none;
+    font-family: Arial;
+}
+
+    .list-content .Product-Items .item .buttonBuy:hover {
+        background-color: #808080;
+        color: white;
+        font-weight: bold;
+    }
+
+.product-list .content2 .Product-Items .item img {
+    width: 250px;
+    height: 300px;
+    transition: 1s ease;
+    border-radius: 25px;
+}
+
+    .product-list .content2 .Product-Items .item img:hover {
+        transform: scale(1.1);
+        border: 1px solid #FFC0CB;
+        border-radius: 360px;
+    }
+
+.product-list .content2 .Product-Items .item h5 {
+    font-size: 15px;
+    font-family: Arial;
+    font-weight: bold;
+    margin: 10px 0px 5px 0px;
+    padding: 0;
+}
+
+/*Phân trang*/
+.pagination {
+    text-align: right; /* Căn phải */
+    margin-top: 20px;
+    margin-right: 20px; /* Đẩy về bên phải */
+}
+
+    .pagination a, .pagination .current-page {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 0 5px;
+        color: #333;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+        .pagination a:hover {
+            background-color: #f1f1f1;
+        }
+
+    .pagination .current-page {
+        background-color: #ff6600;
+        color: white;
+        font-weight: bold;
+    }
+
+
+/* Responsive cho PC lớn hơn */
+@media (min-width: 1600px) {
+    .product-list .content2 .Product-Items {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        gap: 80px;
+    }
+
+        .product-list .content2 .Product-Items .item img {
+            width: 300px;
+            height: 350px;
+        }
+
+    .product-list .content2 h2 {
+        font-size: 28px;
+    }
+}

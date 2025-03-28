@@ -1,0 +1,69 @@
+﻿.body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Đảm bảo section chiếm toàn bộ chiều cao màn hình */
+    background-color: #f4f4f4; /* Màu nền nhẹ nhàng */
+}
+
+    .body section {
+        max-width: 800px;
+        width: 90%; /* Chiếm 90% chiều rộng trên màn hình nhỏ */
+        margin: 20px; /* Khoảng cách xung quanh section */
+        padding: 30px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+        .body section h2 {
+            font-size: 32px;
+            color: #007BFF;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 2px solid #007BFF; /* Thêm đường gạch chân */
+            padding-bottom: 10px;
+        }
+
+        .body section h4 {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+            .body section h4 a {
+                color: #007BFF;
+                text-decoration: none;
+                font-weight: bold;
+                transition: color 0.3s; /* Hiệu ứng chuyển màu khi hover */
+            }
+
+                .body section h4 a:hover {
+                    color: #0056b3;
+                    text-decoration: underline;
+                }
+
+                .body section h4 a:visited {
+                    color: #0056b3;
+                }
+
+            /* Điều chỉnh khoảng cách giữa các liên kết */
+            .body section h4 a {
+                display: inline-block;
+                margin-top: 5px;
+            }
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .body section h2 {
+        font-size: 28px;
+    }
+
+    .body section h4 {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,52 @@
+﻿.blog-container {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4; /* Màu nền nhẹ nhàng */
+}
+
+.blog-videos {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+    .blog-videos h2 {
+        font-size: 32px;
+        color: #007BFF;
+        margin-bottom: 30px;
+        text-align: center;
+        border-bottom: 2px solid #007BFF;
+        padding-bottom: 10px;
+    }
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Responsive grid */
+    gap: 20px;
+}
+
+.video-item {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    .video-item iframe {
+        width: 100%;
+        height: 300px; /* Chiều cao cố định cho video */
+    }
+
+    .video-item h3 {
+        padding: 15px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .video-item iframe {
+        height: 250px;
+    }
+}

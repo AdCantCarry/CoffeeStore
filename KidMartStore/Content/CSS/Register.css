@@ -1,0 +1,86 @@
+﻿.body {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: space-around;
+}
+    .body .login-container {
+        width: max-content;
+        height: max-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 30px 0px 20px 0px;
+    }
+        .body .login-container h2 {
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        .body .login-container .LoginText {
+            margin: 20px 0px 0px 0px;
+            padding: 0;
+            font-family: Arial;
+            font-weight: lighter;
+        }
+        .body .login-container a {
+            color: blue;
+        }
+
+        .body .login-container form {
+            margin: 30px 0px 30px 0px;
+        }
+
+            .body .login-container form .form-email-password {
+                margin: 10px 0px 10px 0px;
+            }
+
+                .body .login-container form .form-email-password label {
+                    margin: 0;
+                }
+
+                    .body .login-container form .form-email-password label span {
+                        color: red;
+                    }
+
+                .body .login-container form .form-email-password input {
+                    border-radius: 5px;
+                    border: 1px solid black;
+                    width: 450px;
+                    height: 35px;
+                    margin: 10px 0px 5px 0px;
+                    padding: 0px 0px 0px 15px;
+                }
+
+            .body .login-container form .formRegister {
+                width: 100%;
+                height: max-content;
+                display: flex;
+                justify-content: space-around
+            }
+
+            .body .login-container form .forgot-password p {
+                margin: 0;
+            }
+
+            .body .login-container form .formRegister .buttonRegister {
+                width: 250px;
+                height: 35px;
+                border-radius: 5px;
+                border: 1px solid black;
+                margin-top: 20px;
+                font-family: Arial;
+                font-weight: bold;
+                color: black;
+                background-color: white;
+                transition: all 1s ease;
+            }
+
+            .body .login-container form .formRegister .buttonRegister:hover {
+                color: white;
+                background-color: black;
+                font-family: Arial;
+                font-weight: bold;
+            }

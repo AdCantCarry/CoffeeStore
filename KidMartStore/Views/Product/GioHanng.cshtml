@@ -1,0 +1,446 @@
+﻿@model KidMartStore.Models.Cart
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CSS/_cart.css" />
+<style>
+    /* Nền mờ khi mở modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Làm mờ nền */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Nội dung modal */
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        width: 400px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.3s ease-in-out;
+        position: relative;
+        top: 30%;
+        left: 40%;
+    }
+
+        /* Tiêu đề modal */
+        .modal-content h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Select chọn phương thức thanh toán */
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Nút trong modal */
+        .modal-content button {
+            width: 45%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px; /* Add margin to separate buttons */
+        }
+
+            .modal-content button:first-child {
+                background-color: #28a745;
+                color: white;
+                margin-right: 5%;
+            }
+
+                .modal-content button:first-child:hover {
+                    background-color: #218838;
+                }
+
+            .modal-content button:last-child {
+                background-color: #dc3545;
+                color: white;
+            }
+
+                .modal-content button:last-child:hover {
+                    background-color: #c82333;
+                }
+
+    .payment-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 16px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        gap: 8px; /* Space between icon and text */
+        margin-top: 10px; /* Add margin to separate buttons */
+    }
+
+        .payment-button span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+    .paypal-button {
+        background-color: #FFC439; /* PayPal yellow */
+        color: #003087; /* PayPal blue */
+    }
+
+        .paypal-button:hover {
+            background-color: #FFD770; /* Lighter yellow on hover */
+        }
+
+    .stripe-button {
+        background-color: #6772e5; /* Stripe purple */
+        color: white;
+    }
+
+        .stripe-button:hover {
+            background-color: #7795f8; /* Lighter purple on hover */
+        }
+
+    .payment-icon {
+        height: 24px; /* Adjust as needed */
+        width: auto;
+    }
+
+    .item-remove a {
+        color: red;
+        text-decoration: none;
+    }
+
+        .item-remove a:hover {
+            color: darkred;
+        }
+
+    .voucher {
+        /* Style for the voucher container */
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center; /* Vertically center items */
+        gap: 10px; /* Space between label, select, and button */
+    }
+
+        .voucher label {
+            /* Style for the label */
+            font-size: 16px;
+            margin-bottom: 0; /* Remove default margin-bottom for labels */
+            font-weight: bold;
+        }
+
+        .voucher select {
+            /* Style for the select dropdown */
+            width: 200px; /* Adjust as needed */
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .voucher button {
+            /* Style for the apply button */
+            background-color: #007bff; /* Blue */
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .voucher button:hover {
+                background-color: #0056b3; /* Darker blue on hover */
+            }
+
+    .checkout {
+        /* Enlarge the checkout section */
+        padding: 20px; /* Increase padding all around */
+        border-radius: 15px; /* More rounded corners */
+        margin-top: 25px; /* Increased margin above */
+        background-color: #f8f9fa; /* Lighter background */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        width: 100%; /* Make sure it takes full width */
+        max-width: 500px; /* But doesn't get too wide */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+        .checkout h3 {
+            font-size: 24px; /* Larger heading */
+            margin-bottom: 20px; /* More space below heading */
+            color: #2c3e50; /* Darker heading color */
+        }
+
+        .checkout .total {
+            font-size: 20px; /* Larger total */
+        }
+</style>
+@if (Session["Cart"] != null)
+{
+    <div class="cart-container">
+        <div class="listCart">
+            @foreach (var item in Model.Items)
+            {
+                <div class="cart-item" data-product-id="@item._product.ID_Product">
+                    <div class="item-remove"><a href="/Product/RemoveCart/@item._product.ID_Product">x</a></div>
+                    <div class="item-image">
+                        <img src="~/Image/Product/@item._product.Image" alt="Product Image">
+                    </div>
+                    <div class="item-details">
+                        <p>@item._product.Name</p>
+                        <span class="item-size">L</span>
+                    </div>
+                    <div class="item-price">@item._product.Price.ToString("N0") VNĐ</div>
+                    <div class="item-quantity">
+                        <button class="decrease">-</button>
+                        <input type="text" value="@item._quantity" class="quantity-input" data-max="@item._product.Quantity">
+                        <button class="increase">+</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="checkout">
+            <h3>Giỏ hàng</h3>
+            <div class="check-time">
+                <label for="check-date">
+                    Ngày nhận hàng
+                    <a style="color: red" id="info-link">?</a>
+                    <span id="tooltip" style="display: none; background: yellow; padding: 5px; border: 1px solid black; position: absolute;">
+                        Sản phẩm bên chúng tôi sẽ giao đến bạn trong 3 ngày tới,<br>
+                        nếu không có cản trở gì khác.
+                    </span>
+                </label>
+                <input type="date" id="check-date">
+            </div>
+            <div class="check-time">
+                <label for="check-time">Thời gian nhận hàng</label>
+                <select id="check-time">
+                    <option>Chọn thời gian</option>
+                    <option>08:00</option>
+                    <option>12:00</option>
+                    <option>16:00</option>
+                    <option>20:00</option>
+                </select>
+            </div>
+            <div class="voucher">
+                <label for="voucher-select">Chọn mã giảm giá:</label>
+                <select id="voucher-select">
+                    <option value="none">Không áp dụng</option>
+                    <option value="SALE10">Giảm 10%</option>
+                    <option value="SALE20">Giảm 20%</option>    
+                </select>
+                <button onclick="applyVoucher()">Áp dụng</button>
+            </div>
+            <div class="total">
+                <span>TỔNG CỘNG</span>
+                <span class="total-amount">@Model.TotalMoney().ToString("N0") VNĐ</span>
+            </div>
+
+
+            <button onclick="openPaymentModal()" class="checkout-button">Thanh Toán</button>
+            <button id="checkout-button" class="payment-button stripe-button">
+                <img src="~/Image/Icons/stripe.png" alt="Stripe Logo" class="payment-icon">
+                <span>Pay with Stripe</span>
+            </button>
+            <form action="@Url.Action("PayWithPayPal", "Product")" method="post">
+                <button type="submit" class="payment-button paypal-button">
+                    <img src="~/Image/Icons/paypal.png" alt="PayPal Logo" class="payment-icon">
+                    <span>Pay with PayPal</span>
+                </button>
+            </form>
+
+            <div id="payment-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h3>Chọn phương thức thanh toán</h3>
+                    <select id="payment-method">
+                        <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                        <option value="paypal">Thanh toán bằng paypal</option>
+                        <option value="momo">Ví MoMo</option>
+                    </select>
+                    <button onclick="submitPayment()">Xác nhận</button>
+                    <button onclick="closePaymentModal()">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Session["Cart"] == null)
+{
+    <div class="empty-cart">
+        <h1>Bạn chưa có sản phẩm trong giỏ hàng.</h1>
+        <h2>Mua hàng <a href="/Home/SanPham">tại đây</a></h2>
+    </div>
+}
+<script>
+    document.querySelectorAll('.decrease').forEach(button => {
+        button.addEventListener('click', function () {
+            const quantityInput = this.nextElementSibling;
+            const productId = this.closest('.cart-item').dataset.productId;
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantity--;
+                quantityInput.value = quantity;
+                updateCartQuantity(productId, quantity);
+            }
+        });
+    });
+
+    document.querySelectorAll('.increase').forEach(button => {
+        button.addEventListener('click', function () {
+            const quantityInput = this.previousElementSibling;
+            const productId = this.closest('.cart-item').dataset.productId;
+            let quantity = parseInt(quantityInput.value);
+            let maxQuantity = parseInt(quantityInput.getAttribute('data-max'));
+
+            if (quantity < maxQuantity) {
+                quantity++;
+                quantityInput.value = quantity;
+                updateCartQuantity(productId, quantity);
+            } else {
+                alert("Số lượng đã đạt tối đa!");
+            }
+        });
+    });
+
+    // Hàm cập nhật số lượng trong giỏ hàng bằng AJAX
+    function updateCartQuantity(productId, quantity) {
+        fetch('/Product/Update_Cart_Quantity', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: productId, cartQuantity: quantity })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('.total-amount').innerText = data.totalMoney.toLocaleString() + " VNĐ";
+                } else {
+                    alert("Lỗi cập nhật giỏ hàng!");
+                }
+            });
+    }
+    // Lấy ngày hiện tại theo định dạng ####-MM-DD
+    let today = new Date().toISOString().split('T')[0];
+
+    // Gán giá trị vào input date
+    document.getElementById("check-date").value = today;
+
+    document.getElementById("info-link").addEventListener("click", function (event) {
+        event.preventDefault(); // Ngăn chặn load lại trang
+        let tooltip = document.getElementById("tooltip");
+        tooltip.style.display = tooltip.style.display === "none" ? "inline" : "none";
+    });
+
+
+    // Áp dụng voucher từ danh sách chọn
+    function applyVoucher() {
+        let voucherCode = document.getElementById("voucher-select").value;
+
+        fetch('/Product/ApplyVoucher', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: voucherCode })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('.total-amount').innerText = data.totalMoney.toLocaleString() + " VNĐ";
+                    alert("Mã giảm giá áp dụng thành công!");
+                } else {
+                    alert("Mã giảm giá không hợp lệ hoặc không có mã!");
+                }
+            });
+    }
+
+    // Mở modal chọn phương thức thanh toán
+    function openPaymentModal() {
+        document.getElementById("payment-modal").style.display = "block";
+    }
+
+    // Đóng modal
+    function closePaymentModal() {
+        document.getElementById("payment-modal").style.display = "none";
+    }
+
+    // Xác nhận thanh toán
+    function submitPayment() {
+        let paymentMethod = document.getElementById("payment-method").value;
+        let cartItems = document.querySelectorAll(".cart-item");
+        let hasExceededStock = false;
+        let adjustedCart = [];
+
+        cartItems.forEach(item => {
+            let productId = item.dataset.productId;
+            let quantity = parseInt(item.querySelector(".quantity-input").value);
+            let maxStock = parseInt(item.querySelector(".quantity-input").getAttribute("data-max"));
+
+            if (quantity > maxStock) {
+                hasExceededStock = true;
+                adjustedCart.push({ id: productId, newQuantity: maxStock });
+            }
+        });
+
+        if (hasExceededStock) {
+            let confirmOrder = confirm("Một số sản phẩm đã vượt quá số lượng trong kho. Bạn có muốn đặt tối đa số lượng có sẵn không?");
+            if (confirmOrder) {
+                adjustedCart.forEach(item => {
+                    updateCartQuantity(item.id, item.newQuantity);
+                });
+
+                setTimeout(() => {
+                    window.location.href = `/Product/CheckOut?paymentMethod=${paymentMethod}`;
+                }, 2000);
+            }
+        } else {
+            window.location.href = `/Product/CheckOut?paymentMethod=${paymentMethod}`;
+        }
+    }
+
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+
+
+<script>
+    var stripe = Stripe('@System.Configuration.ConfigurationManager.AppSettings["StripeTestPublishableKey"]');
+
+    document.getElementById("checkout-button").addEventListener("click", function () {
+        fetch('@Url.Action("CreateCheckoutSession", "Product")', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(response => response.json())
+        .then(session => {
+            if (session.sessionId) {
+                return stripe.redirectToCheckout({ sessionId: session.sessionId });
+            } else {
+                alert("Error: " + (session.error || "Invalid session ID"));
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+</script>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AfuKPtm4M7FSVy58vQy-Qd-FwbiksidE9lp9YNH79MNbVaPprA6PnMTh55xQSGKvKsXA7rgBU5sKDUY4&currency=USD"></script>

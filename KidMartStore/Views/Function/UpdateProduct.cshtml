@@ -1,0 +1,41 @@
+﻿@model KidMartStore.Models.Product
+@{
+    ViewBag.Title = "Cập nhật sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/Admin/AddNewProdcut.css" />
+<section class="add-product-form">
+    <h2>Cập nhật thông tin sản phẩm</h2>
+    <form action="@Url.Action("UpdateProduct", "Function")" method="POST">
+        <div class="form-group">
+            <label for="product-name">Tên sản phẩm</label>
+            <input type="text" id="product-name" name="Name" value="@Model.Name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="product-price">Giá</label>
+            <input type="number" id="product-price" name="Price" value="@Model.Price" required min="1000" step="1000">
+        </div>
+
+        <div class="form-group">
+            <label for="product-description">Mô tả</label>
+            <textarea id="product-description" name="Description" @Model.Description rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="product-quantity">Số lượng</label>
+            <input type="number" id="product-quantity" name="Quantity" value="@Model.Quantity" required>
+        </div>
+
+        <div class="form-group">
+            <label for="product-image">Hình ảnh</label>
+            <img id="preview" src="~/Image/Product/@Model.Image" alt="Image Preview" style="width: 200px; height: 200px; margin-top: 10px;">
+        </div>
+
+        <button type="submit" class="submit-button">Cập nhật sản phẩm</button>
+        <button type="button" class="submit-button" onclick="window.location.href='@Url.Action("ManagerProduct", "Admin")'">Danh sách sản phẩm</button>
+    </form>
+</section>
+
+

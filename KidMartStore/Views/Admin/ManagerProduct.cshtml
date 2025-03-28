@@ -1,0 +1,78 @@
+﻿@model List<KidMartStore.Models.Product>
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CSS/_managerproduct.css" />
+
+<div class="search-bar">
+    <input type="text" id="searchProduct" placeholder="Tìm kiếm theo ID sản phẩm hoặc Tên sản phẩm...">
+</div>
+
+<section class="product-table">
+    <table id="productTable">
+        <thead>
+            <tr>
+                <th data-sort="id">ID ⬍</th>
+                <th>Tên Sản phẩm</th>
+                <th data-sort="price">Giá (VNĐ) ⬍</th>
+                <th>Số lượng</th>
+                <th>Hình ảnh</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.ID_Product</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("N0")</td>
+                    <td>@(product.Quantity == 0 ? "Đã hết hàng" : product.Quantity.ToString())</td>
+                    <td><img src="~/Image/Product/@product.Image" style="width: 50px; height: 50px;" /></td>
+                    <td>
+                        <a href="@Url.Action("UpdateProduct", "Function", new { id = product.ID_Product })" class="edit">Chỉnh sửa</a>
+                        <a href="@Url.Action("DeleteProduct", "Function", new { id = product.ID_Product })" class="delete" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button class="add-product" onclick="window.location.href='@Url.Action("AddNewProduct", "Function")'">Thêm sản phẩm</button>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Tìm kiếm theo ID sản phẩm hoặc Tên sản phẩm
+        $("#searchProduct").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#productTable tbody tr").each(function () {
+                var rowText = $(this).text().toLowerCase();
+                $(this).toggle(rowText.indexOf(value) > -1);
+            });
+        });
+
+        // Sắp xếp cột ID và Giá
+        $("th[data-sort]").click(function () {
+            var table = $("#productTable tbody");
+            var rows = table.find("tr").toArray();
+            var column = $(this).data("sort");
+            var order = $(this).data("order") === "asc" ? "desc" : "asc";
+
+            rows.sort(function (a, b) {
+                var aValue = $(a).find("td:eq(" + (column === 'id' ? 0 : 2) + ")").text().replace(/,/g, '').trim();
+                var bValue = $(b).find("td:eq(" + (column === 'id' ? 0 : 2) + ")").text().replace(/,/g, '').trim();
+
+                aValue = parseFloat(aValue) || 0;
+                bValue = parseFloat(bValue) || 0;
+
+                return order === "asc" ? aValue - bValue : bValue - aValue;
+            });
+
+            table.html(rows);
+            $(this).data("order", order);
+            $(this).html($(this).html().replace("⬍", order === "asc" ? "⬆" : "⬇"));
+        });
+    });
+</script>

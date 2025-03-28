@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "AddNewCategory";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="~/Content/CSS/_addnewcategory.css" />
+<form action="@Url.Action("AddNewCategory", "Function")" method="post">
+    <div class="form-group">
+        <label for="category-name">Tên danh mục</label>
+        <input type="text" id="category-name" name="Name_Category" required>
+    </div>
+
+    <button type="submit" class="submit-button">Thêm danh mục</button>
+    <button type="button" class="submit-button" onclick="window.location.href='@Url.Action("ManagerCategory", "Admin")'">Danh sách danh mục</button>
+</form>
+

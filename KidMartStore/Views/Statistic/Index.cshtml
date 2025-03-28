@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Thống kê";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+    <h2 class="mt-5 text-center">Thống kê</h2>
+
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-3 mb-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Số lượng người dùng</h5>
+                    <p class="card-text">@ViewBag.NewCustomers</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Số lượng nhân viên</h5>
+                    <p class="card-text">@ViewBag.TotalEmployees</p> @* Giả sử bạn có TotalEmployees trong ViewBag *@
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Số lượng sản phẩm</h5>
+                    <p class="card-text">@ViewBag.TotalProducts</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Số lượng đơn hàng</h5>
+                    <p class="card-text">@ViewBag.TotalOrders</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Doanh thu</h5>
+                    <p class="card-text">@ViewBag.TotalRevenue.ToString("#,##0") VNĐ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+</style>

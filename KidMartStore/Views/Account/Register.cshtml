@@ -1,0 +1,54 @@
+﻿@model KidMartStore.Models.Customer
+
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewBag.Title = "Register";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Content/CSS/Register.css" />
+</head>
+<div class="body">
+    <div class="login-container">
+        <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
+        <p class="LoginText">Bạn đã có tài khoản? Đăng nhập <a href="~/Account/Login"> tại đây</a></p>
+        <form action="/Account/Register" method="post">
+            <div class="form-email-password">
+                <label for="Name">Họ và tên <span>*</span></label><br />
+                <input type="text" id="name" name="Username" placeholder="Nhập họ và tên của bạn" required oninvalid="this.setCustomValidity('Vui lòng nhập tên của bạn!')" oninput="this.setCustomValidity('')">
+            </div>
+
+            <div class="form-email-password">
+                <label for="Phone">Số điện thoại <span>*</span></label><br />
+                <input type="tel" id="phone" name="Phone" placeholder="Nhập số điện thoại của bạn" required oninvalid="this.setCustomValidity('Hãy cung cấp số điện thoại của bạn!')" oninput="this.setCustomValidity('')">
+            </div>
+
+            <div class="form-email-password">
+                <label for="email">Email <span>*</span></label><br />
+                <input type="email" id="email" name="Email" placeholder="Nhập email của bạn" required oninvalid="this.setCustomValidity('Bạn chưa nhập Email')" oninput="this.setCustomValidity('')">
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div style="color: red">@ViewBag.Error</div>
+                }
+            </div>
+
+            <div class="form-email-password">
+                <label for="password">Mật khẩu <span>*</span></label><br />
+                <input type="password" id="password" name="Password" placeholder="Nhập mật khẩu" required oninvalid="this.setCustomValidity('Để tăng bảo mật vui lòng nhập mật khẩu!')" oninput="this.setCustomValidity('')">
+                @if (!string.IsNullOrEmpty(ViewBag.Error1))
+                {
+                    <div style="color: red">@ViewBag.Error1</div>
+                }
+            </div>
+
+            <div class="formRegister">
+                <div></div>
+                <input type="submit" value="Đăng ký" class="buttonRegister" />
+                <div></div>
+            </div>           
+        </form>
+    </div>
+</div>
+

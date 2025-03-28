@@ -1,0 +1,202 @@
+﻿@model List<KidMartStore.Models.Order>
+@{
+    ViewBag.Title = "ManagerOrders";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Quản lý đơn hàng</h2>
+
+<div class="search-bar">
+    <input type="text" id="searchOrder" placeholder="Tìm kiếm theo Mã đơn hàng hoặc Tên khách hàng...">
+</div>
+
+<div class="content2">
+    <section class="Order-content-right">
+        <h2>Lịch sử đơn hàng</h2>        <a href="@Url.Action("ExportOrdersToExcel", "Admin")" class="btn btn-excel">Xuất Excel</a>
+
+
+        <div class="content2" style="margin: auto">
+            <table class="tableOrder">
+                <tr>
+                    <td>Mã Order</td>
+                    <td>Khách hàng</td>
+                    <td>Tổng giá</td>
+                    <td>Ngày đặt</td>
+                    <td>Trạng thái</td>
+                    <td>Thao tác</td>
+                </tr>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.ID_Order</td>
+                        <td>@order.Customer.Username</td>
+                        <td>@order.Total.ToString("N0") <span>VNĐ</span></td>
+                        <td>@order.Order_Date.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <select class="order-status" data-id="@order.ID_Order">
+                                <option value="Chờ xác nhận" @(order.Status == "Chờ xác nhận" ? "selected" : "")>Chờ xác nhận</option>
+                                <option value="Đang xử lý" @(order.Status == "Đang xử lý" ? "selected" : "")>Đang xử lý</option>
+                                <option value="Đã giao" @(order.Status == "Đã giao" ? "selected" : "")>Đã giao</option>
+                                <option value="Đã hủy" @(order.Status == "Đã hủy" ? "selected" : "")>Đã hủy</option>
+                            </select>
+                        </td>
+                        <td>
+                            @if (order.Status == "Đã giao" || order.Status == "Đã hủy")
+                            {
+                                <a>Không thể thao tác</a>
+                            }
+                            else
+                            {
+                                <button class="btn-delete" onclick="deleteOrder(@order.ID_Order)">Xóa</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".order-status").change(function () {
+            var orderId = $(this).data("id");
+            var status = $(this).val();
+            $.post("/Admin/UpdateOrderStatus", { orderId: orderId, status: status }, function (response) {
+                alert(response.message);
+            });
+        });
+
+        $("#searchOrder").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".tableOrder tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+
+    function deleteOrder(orderId) {
+        if (confirm("Bạn có chắc muốn xóa đơn hàng này?")) {
+            $.post("/Admin/DeleteOrder", { orderId: orderId }, function (response) {
+                if (response.success) {
+                    alert("Đã xóa đơn hàng!");
+                    location.reload();
+                } else {
+                    alert(response.message);
+                }
+            });
+        }
+    }
+</script>
+
+<style>
+    .search-bar {
+        margin-bottom: 15px;
+    }
+
+    .content2 {
+        width: 90%;
+        margin: 20px 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .tableOrder {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fafafa;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .tableOrder th, .tableOrder td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .tableOrder th {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .tableOrder tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .tableOrder tr:hover {
+            background: #ddd;
+            transition: 0.3s;
+        }
+
+        .tableOrder td span {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+    .btn-delete {
+        color: white;
+        background: #e57373; /* Màu đỏ nhạt hơn */
+        border: none;
+        padding: 8px 12px; /* Tăng padding để nút lớn hơn một chút */
+        cursor: pointer;
+        border-radius: 20px; /* Làm tròn nút */
+        transition: background-color 0.3s; /* Thêm hiệu ứng chuyển tiếp */
+    }
+
+        .btn-delete:hover {
+            background: #d32f2f; /* Màu đỏ đậm hơn khi hover */
+        }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between; /* Đặt khoảng cách giữa tiêu đề và nút */
+        align-items: center; /* Căn chỉnh theo chiều dọc */
+        margin-bottom: 20px;
+    }
+
+        .header-section h2 {
+            margin: 0; /* Loại bỏ margin mặc định của tiêu đề */
+        }
+    .btn-excel {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        margin-top: 0;
+        cursor: pointer;
+        border-radius: 20px;
+        transition: background-color 0.3s;
+        text-decoration: none; /* Loại bỏ gạch chân */
+        margin-top: 10px; /* Đẩy nút xuống 1 chút */
+    }
+
+        .btn-excel:hover {
+            background: #43A047;
+        }
+
+
+    .btn-primary {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 20px;
+        transition: background-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+    .order-status {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+</style>

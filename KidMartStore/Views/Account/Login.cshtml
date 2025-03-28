@@ -1,0 +1,48 @@
+﻿@model KidMartStore.Models.Customer
+
+@{
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+    ViewBag.Title = "Đăng nhập";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Content/CSS/Login.css" />
+</head>
+<div class="body">
+    <div></div>
+    <div class="login-container">
+        <h2>ĐĂNG NHẬP TÀI KHOẢN</h2>
+        <p class="RegisterText">Bạn chưa có tài khoản? <a href="~/Account/Register">Đăng ký tại đây</a></p>        
+        <form action="/Account/Login" method="post">
+            <div class="form-email-password">
+                <label for="email">Email <span>*</span></label><br />
+                <input type="email" id="email" name="Email" placeholder="Nhập email của bạn" required oninvalid="this.setCustomValidity('Bạn chưa nhập Email')" oninput="this.setCustomValidity('')">
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorEmail))
+                {
+                    <div style="color: red">@ViewBag.ErrorEmail</div>
+                }
+            </div>
+
+            <div class="form-email-password">
+                <label for="password">Mật khẩu <span>*</span></label><br />
+                <input type="password" id="password" name="Password" placeholder="Nhập mật khẩu" required oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu của bạn!')" oninput="this.setCustomValidity('')">
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorPassword))
+                {
+                    <div style="color: red">@ViewBag.ErrorPassword</div>
+                }
+            </div>
+
+            <div class="forgot-password">
+                <p>Quên mật khẩu? Nhấn vào <a href="#">đây</a></p>
+            </div>
+
+            <div class="formLogin">
+                <div></div>
+                <input type="submit" value="Đăng nhập" class="buttonLogin" />
+                <div></div>
+            </div>
+        </form>
+    </div>
+    <div></div>
+</div>

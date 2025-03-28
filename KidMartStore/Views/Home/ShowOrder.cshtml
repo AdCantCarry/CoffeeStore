@@ -1,0 +1,100 @@
+﻿@model List<KidMartStore.Models.Order>
+@{
+    ViewBag.Title = "ShowOrder";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/CSS/Order.css" />
+<main class="Order-Account">
+    <div class="content1">
+        <h2>Thông tin tài khoản</h2>
+        <section class="Address-content-left">
+            <h3>Xin chào <span>@(Session["Name"] ?? "Guest")!</span></h3>
+            <a class="profile" href="~/Home/Profile">Thông tin tài khoản</a><br />
+            <a class="address" href="~/Home/Address">Địa chỉ</a><br />
+            <a class="order" href="~/Home/ShowOrder">Đơn hàng của bạn</a>
+        </section>
+    </div>
+    <div class="content2">
+        <section class="Order-content-right">
+            <h2>Lịch sử đơn hàng</h2>
+            <div class="content2" style="margin: auto">
+                <div class="table-wrapper">
+                    <table class="tableOrder">
+                        <tr>
+                            <td style="background-color: gray; font-weight: bold">Mã Order</td>
+                            <td style="background-color: gray; font-weight: bold">Tên sản phẩm</td>
+                            <td style="background-color: gray; font-weight: bold">Số lượng</td>
+                            <td style="background-color: gray; font-weight: bold">Tổng giá</td>
+                            <td style="background-color: gray; font-weight: bold">Ngày đặt</td>
+                            <td style="background-color: gray; font-weight: bold ">Status</td>
+                            <td style="background-color: gray; font-weight: bold">Yêu cầu</td>
+                        </tr>
+                        @foreach (var List in Model)
+                        {
+                            foreach (var product in List.Detail_Order)
+                            {
+                                <tr>
+                                    <td>@List.ID_Order</td>
+                                    <td>@product.Product.Name</td>
+                                    <td>@product.Quantity</td>
+                                    <td>@List.Total.ToString("N0") <span>VNĐ</span></td>
+                                    <td>@List.Order_Date.ToString("dd/MM/yyyy")</td>
+                                    <td>@List.Status</td>
+                                    <td>
+                                        @{
+                                            switch (List.Status)
+                                            {
+                                                case "Đã giao":
+                                                    <text><a>Không thể hủy</a></text>;
+                                                    break;
+                                                case "Đang xử lý":
+                                                case "Chờ xác nhận":
+                                                    <text><a style="cursor: pointer" class="cancel-order" data-id="@List.ID_Order">Hủy</a></text>;
+                                                    break;
+                                                case "Đã hủy":
+                                                    <text><a>Đã hủy đơn</a></text>;
+                                                    break;
+                                                default:
+                                                    <text><a>Không thể thao tác</a></text>;
+                                                    break;
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".cancel-order").click(function () {
+            var orderId = $(this).data("id");
+
+            if (confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?")) {
+                $.ajax({
+                    url: '@Url.Action("CancelOrder", "Home")',
+                    type: 'POST',
+                    data: { id: orderId },
+                    success: function (response) {
+                        alert("Bạn đã hủy đơn hàng thành công");
+                        location.reload(); // Reload lại trang để cập nhật trạng thái đơn hàng
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+
+
+
